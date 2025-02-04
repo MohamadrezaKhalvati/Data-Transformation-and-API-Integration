@@ -8,8 +8,7 @@ import { ServeStaticModule } from '@nestjs/serve-static'
 import { ThrottlerModule } from '@nestjs/throttler'
 import * as path from 'path'
 import { DatabaseModule } from '../database/database.module'
-import { FileHelpers } from './Helpers/file-helpers'
-import { UsersHelpersService } from './Helpers/users-helpers.service'
+
 import { UtilsService } from './utils.service'
 @Module({
     imports: [
@@ -20,7 +19,6 @@ import { UtilsService } from './utils.service'
         HttpModule.register({ timeout: 60000 }),
         ThrottlerModule.forRoot([{ ttl: 60, limit: 150 }]),
         CacheModule.register(),
-        // forwardRef(() => UserModule),
         MulterModule.register({
             dest: __dirname + '../upload',
         }),
@@ -29,17 +27,8 @@ import { UtilsService } from './utils.service'
             rootPath: path.join(__dirname, '../..', 'public'),
             serveRoot: '/public',
         }),
-
-        // MelipayamakModule.registerAsync({
-        //     imports: [ConfigModule],
-        //     inject: [ConfigService],
-        //     useFactory: (configService: ConfigService) => ({
-        //         phone_number: configService.get<string>('SMS_USERNAME'),
-        //         password: configService.get<string>('SMS_PASSWORD'),
-        //     }),
-        // }),
     ],
-    providers: [UtilsService, FileHelpers, UsersHelpersService],
-    exports: [UtilsService, FileHelpers, UsersHelpersService],
+    providers: [UtilsService],
+    exports: [UtilsService],
 })
 export class UtilsModule {}
