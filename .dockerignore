@@ -1,0 +1,11 @@
+node_modules
+
+*.log
+dist/
+.DS_Store
+.vscode/
+.idea/
+.prettierrc
+.eslintrc.js
+liara.json
+README.md
