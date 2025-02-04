@@ -1,6 +1,7 @@
 import {
 	BadRequestException,
 	INestApplication,
+	Logger,
 	ValidationPipe,
 } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
@@ -13,6 +14,7 @@ import { ExceptionsFilter } from './modules/base'
 import { RemovePasswordInterceptor } from './modules/base/middlewares/convert-response.interceptor'
 import { QueryExecutionTimeInterceptor } from './modules/base/middlewares/query-execution-time.interceptor'
 import { TransformInterceptor } from './modules/base/middlewares/transform.interceptor'
+import { CustomLogger } from './modules/base/utils/custom-logger'
 import { UtilsService } from './modules/utils/utils.service'
 async function enableGlobalValidations(app: INestApplication) {
     app.useGlobalInterceptors(new TransformInterceptor())
@@ -66,10 +68,19 @@ async function setupSwagger(app: INestApplication) {
 }
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule)
+    const app = await NestFactory.create(AppModule, {
+        logger: new CustomLogger(),
+    })
     setupSwagger(app)
     enableGlobalValidations(app)
+
+    Logger.log(
+        `Connecting to the database at ${process.env.POSTGRES_HOST} with name ${process.env.POSTGRES_DB}`,
+        'Database',
+    )
+
     await app.listen(process.env.APP_PORT)
+    Logger.log('Server started ' + process.env.APP_PORT, 'BOOTSTRAP')
 }
 
 bootstrap()
