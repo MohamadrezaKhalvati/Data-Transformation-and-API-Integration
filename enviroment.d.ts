@@ -6,6 +6,8 @@ export interface Env {
     POSTGRES_PORT: string
     POSTGRES_HOST: string
     POSTGRES_DB: string
+    API_PROVIDER_ONE: string
+    API_PROVIDER_TWO: string
 }
 
 declare global {

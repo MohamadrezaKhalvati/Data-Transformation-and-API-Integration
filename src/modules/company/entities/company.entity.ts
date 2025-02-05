@@ -11,7 +11,7 @@ export class Company extends BaseEntity {
     industry: string
 
     @Column({ nullable: true })
-    website: string
+    website?: string
 
     @OneToMany('Job', 'company')
     jobs: Relation<Job[]>

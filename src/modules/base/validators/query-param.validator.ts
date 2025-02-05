@@ -37,20 +37,6 @@ export class QueryParams<T = any> extends SingleQueryParams<T> {
     sort?: FindOptionsOrder<T>
 }
 
-export class AdvertisingQueryParams<T = any> extends QueryParams<T> {
-    @IsOptional()
-    @Type(() => Number)
-    @IsNumber()
-    @Min(0)
-    min_price: number
-
-    @IsOptional()
-    @Type(() => Number)
-    @IsNumber()
-    @Min(0)
-    max_price: number
-}
-
 export class PaymentQueryParams {
     @Type(() => String)
     @IsString()

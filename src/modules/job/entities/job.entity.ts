@@ -14,8 +14,8 @@ export class Job extends BaseEntity {
     @Column({ default: false })
     remote: boolean
 
-    @Column({ default: 'Unknown' })
-    employment_type: string
+    @Column({ nullable: true })
+    employment_type?: string
 
     @Column({ nullable: true })
     salary_min: number
