@@ -4,11 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { catchError, firstValueFrom, map } from 'rxjs'
 import { Repository } from 'typeorm'
 import { BaseService } from '../base'
+import { Company } from '../company/entities/company.entity'
+import { Skill } from '../skill/entities/skill.entity'
 import ApiOneMapper from '../utils/mapper/provider-one.mapper'
 import ApiTwoMapper from '../utils/mapper/provider-two.mapper'
 import { BaseJob } from '../utils/types/data-transformed.type'
 import { ApiOneResponse } from '../utils/types/ProviderOneRes.type'
 import { ApiTwoResponse } from '../utils/types/ProviderTwoRes.type'
+import { JobSkill } from './entities/job-skill.entity'
 import { Job } from './entities/job.entity'
 @Injectable()
 export class JobService extends BaseService<Job> {
@@ -17,6 +20,14 @@ export class JobService extends BaseService<Job> {
     constructor(
         @InjectRepository(Job)
         private readonly jobRepository: Repository<Job>,
+
+        @InjectRepository(Company)
+        private readonly companyRepository: Repository<Company>,
+        @InjectRepository(Skill)
+        private readonly skillRepository: Repository<Skill>,
+        @InjectRepository(JobSkill)
+        private readonly JobSkillRepository: Repository<JobSkill>,
+
         private readonly httpService: HttpService,
     ) {
         super(jobRepository)
@@ -36,6 +47,7 @@ export class JobService extends BaseService<Job> {
         ]
     }
 
+    async insertData(data: BaseJob[]) {}
     async fetchDataOne(): Promise<BaseJob[]> {
         return await firstValueFrom(
             this.httpService.get<ApiOneResponse>(this.apiProviderOne).pipe(
