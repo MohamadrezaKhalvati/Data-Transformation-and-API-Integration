@@ -1,6 +1,13 @@
 import { BaseEntity } from 'src/modules/base'
 import { Company } from 'src/modules/company/entities/company.entity'
-import { Column, Entity, ManyToOne, OneToMany, Relation } from 'typeorm'
+import {
+	Column,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	OneToMany,
+	Relation,
+} from 'typeorm'
 import { JobSkill } from './job-skill.entity'
 
 @Entity('job')
@@ -26,7 +33,11 @@ export class Job extends BaseEntity {
     @Column({ default: 'USD' })
     currency: string
 
+    @Column({ nullable: true })
+    company_id?: number
+
     @ManyToOne(() => Company, company => company.jobs, { eager: true })
+    @JoinColumn({ name: 'company_id' })
     company: Company
 
     @Column({ nullable: true })

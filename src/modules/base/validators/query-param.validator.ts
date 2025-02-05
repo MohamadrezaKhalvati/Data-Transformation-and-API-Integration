@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { IsNumber, IsOptional, IsString, Min } from 'class-validator'
+import { IsNumber, IsOptional, Min } from 'class-validator'
 import { FindOptionsOrder } from 'typeorm'
 import { FindOptionsRelations } from 'typeorm/find-options/FindOptionsRelations'
 import { FindOptionsSelect } from 'typeorm/find-options/FindOptionsSelect'
@@ -35,16 +35,6 @@ export class QueryParams<T = any> extends SingleQueryParams<T> {
     @IsOptional()
     @Type(() => Object)
     sort?: FindOptionsOrder<T>
-}
-
-export class PaymentQueryParams {
-    @Type(() => String)
-    @IsString()
-    Authority: string
-
-    @Type(() => String)
-    @IsString()
-    Status: 'NOK' | 'OK'
 }
 
 export class QueryBuilderParams<T = any> {
