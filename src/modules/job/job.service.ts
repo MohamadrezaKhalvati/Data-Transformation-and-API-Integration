@@ -1,5 +1,6 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
+import { Cron, CronExpression } from '@nestjs/schedule'
 import { InjectRepository } from '@nestjs/typeorm'
 import { catchError, firstValueFrom, map } from 'rxjs'
 import { FindOptionsWhere, Repository } from 'typeorm'
@@ -34,7 +35,6 @@ export class JobService extends BaseService<Job> {
         super(jobRepository)
         this.apiProviderOne = process.env.API_PROVIDER_ONE
         this.apiProviderTwo = process.env.API_PROVIDER_TWO
-        this.fetchData()
     }
 
     async findAllQb(query: QueryBuilderParams<Job>) {
@@ -154,16 +154,6 @@ export class JobService extends BaseService<Job> {
         )
     }
 
-    async fetchData() {
-        const dataOne = await this.fetchDataOne()
-        const dataTwo = await this.fetchDataTwo()
-        const data = [
-            ...(Array.isArray(dataOne) ? dataOne : []),
-            ...(Array.isArray(dataTwo) ? dataTwo : []),
-        ]
-        // await this.insertData(data)
-    }
-
     async insertData(data: BaseJob[]) {
         data.forEach(async job => {
             const skill_ids = []
@@ -250,5 +240,18 @@ export class JobService extends BaseService<Job> {
                 }),
             ),
         )
+    }
+
+    @Cron(process.env.CRON_SCHEDULE || CronExpression.EVERY_10_SECONDS)
+    async fetchData() {
+        this.logger.debug('Cron Job Has Started')
+        const dataOne = await this.fetchDataOne()
+        const dataTwo = await this.fetchDataTwo()
+        const data = [
+            ...(Array.isArray(dataOne) ? dataOne : []),
+            ...(Array.isArray(dataTwo) ? dataTwo : []),
+        ]
+        await this.insertData(data)
+        this.logger.debug('Cron Job Has Finished')
     }
 }

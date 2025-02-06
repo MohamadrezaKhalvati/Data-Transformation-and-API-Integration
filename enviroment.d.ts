@@ -8,6 +8,7 @@ export interface Env {
     POSTGRES_DB: string
     API_PROVIDER_ONE: string
     API_PROVIDER_TWO: string
+    CRON_SCHEDULE: string
 }
 
 declare global {
