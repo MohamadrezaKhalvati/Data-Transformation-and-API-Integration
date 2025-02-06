@@ -41,32 +41,38 @@ export class JobService extends BaseService<Job> {
         const filter = query.filter as FindOptionsWhere<Job>
         const qb = this.jobRepository.createQueryBuilder('job')
 
-        ;[
-            'title',
-            'location',
-            'remote',
-            'employment_type',
-            'salary_min',
-            'salary_max',
-            'currency',
-            'company',
-            'experience',
-            'skill',
-            'website',
-            'industry',
-        ].forEach(field => {
-            if (
-                !filter[field] ||
-                (Array.isArray(filter[field]) && filter[field].length === 0) ||
-                filter[field].toString().length === 0
-            ) {
-                delete filter[field]
-            }
-        })
+        if (filter) {
+            ;[
+                'title',
+                'location',
+                'remote',
+                'employment_type',
+                'salary_min',
+                'salary_max',
+                'currency',
+                'company',
+                'experience',
+                'skill',
+                'website',
+                'industry',
+            ].forEach(field => {
+                if (
+                    !filter[field] ||
+                    (Array.isArray(filter[field]) &&
+                        filter[field].length === 0) ||
+                    filter[field].toString().length === 0
+                ) {
+                    delete filter[field]
+                }
+            })
+        }
 
+        // qb.leftJoinAndSelect('job.company', 'company')
+        //     .leftJoinAndSelect('job.jobSkills', 'job_skills')
+        //     .leftJoinAndSelect('jobSkills', 'skill')
         qb.leftJoinAndSelect('job.company', 'company')
             .leftJoinAndSelect('job.jobSkills', 'job_skills')
-            .leftJoinAndSelect('jobSkills', 'skill')
+            .leftJoinAndSelect('job_skills.skill', 'skill')
 
         if (filter?.title) {
             qb.andWhere('job.title LIKE :title', {
@@ -80,7 +86,7 @@ export class JobService extends BaseService<Job> {
             })
         }
 
-        if (filter?.remote !== undefined) {
+        if (filter?.remote != undefined) {
             qb.andWhere('job.remote = :remote', {
                 remote: filter.remote,
             })
@@ -154,7 +160,7 @@ export class JobService extends BaseService<Job> {
         )
     }
 
-    async insertData(data: BaseJob[]) {
+    private async insertData(data: BaseJob[]) {
         data.forEach(async job => {
             const skill_ids = []
             let company_id
@@ -214,7 +220,7 @@ export class JobService extends BaseService<Job> {
             })
         })
     }
-    async fetchDataOne(): Promise<BaseJob[]> {
+    private async fetchDataOne(): Promise<BaseJob[]> {
         return await firstValueFrom(
             this.httpService.get<ApiOneResponse>(this.apiProviderOne).pipe(
                 map(response => {
@@ -228,7 +234,7 @@ export class JobService extends BaseService<Job> {
         )
     }
 
-    async fetchDataTwo(): Promise<BaseJob[]> {
+    private async fetchDataTwo(): Promise<BaseJob[]> {
         return await firstValueFrom(
             this.httpService.get<ApiTwoResponse>(this.apiProviderTwo).pipe(
                 map(response => {
