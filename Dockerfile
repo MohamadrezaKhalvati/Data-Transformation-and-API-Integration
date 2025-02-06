@@ -7,7 +7,7 @@ COPY package.json ./
 RUN if [ -f pnpm-lock.yaml ]; then cp pnpm-lock.yaml ./; fi
 
 RUN pnpm install 
-ENV NODE_ENV=production
+ENV NODE_ENV=PRODUCTION
 
 COPY . .
 

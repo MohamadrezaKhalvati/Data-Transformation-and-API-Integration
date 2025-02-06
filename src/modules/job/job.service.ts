@@ -7,13 +7,13 @@ import { FindOptionsWhere, Repository } from 'typeorm'
 import { BaseService, QueryBuilderParams } from '../base'
 import { Company } from '../company/entities/company.entity'
 import { Skill } from '../skill/entities/skill.entity'
-import ApiOneMapper from '../utils/mapper/provider-one.mapper'
-import ApiTwoMapper from '../utils/mapper/provider-two.mapper'
 import { BaseJob } from '../utils/types/data-transformed.type'
 import { ApiOneResponse } from '../utils/types/ProviderOneRes.type'
 import { ApiTwoResponse } from '../utils/types/ProviderTwoRes.type'
 import { JobSkill } from './entities/job-skill.entity'
 import { Job } from './entities/job.entity'
+import ApiOneMapper from './mapper/provider-one.mapper'
+import ApiTwoMapper from './mapper/provider-two.mapper'
 @Injectable()
 export class JobService extends BaseService<Job> {
     private readonly logger = new Logger(JobService.name)

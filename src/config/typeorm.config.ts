@@ -14,7 +14,7 @@ export const databaseConfig: TypeOrmModuleOptions & SeederOptions = {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    synchronize: true,
+    synchronize: process.env.NODE_ENV === 'DEVELOPMENT' ? true : false,
     entities: TypeOrmModels,
     migrations: [path.join(__dirname, '../database/migrations/*{.js,.ts}')],
     seeds: ['src/database/seeder/seeds/**/*{.ts,.js}'],

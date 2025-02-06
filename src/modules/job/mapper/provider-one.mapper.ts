@@ -1,6 +1,9 @@
 import { Logger } from '@nestjs/common'
-import { BaseJob } from '../types/data-transformed.type'
-import { ApiOneJobType, ApiOneResponse } from '../types/ProviderOneRes.type'
+import { BaseJob } from 'src/modules/utils/types/data-transformed.type'
+import {
+	ApiOneJobType,
+	ApiOneResponse,
+} from 'src/modules/utils/types/ProviderOneRes.type'
 
 // Added interface for salary parsing results
 interface ParsedSalary {

@@ -7,7 +7,6 @@ import {
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as fs from 'fs'
-import { ServerResponse } from 'http'
 import * as path from 'path'
 import { AppModule } from './app.module'
 import { ExceptionsFilter } from './modules/base'
@@ -42,7 +41,7 @@ async function enableGlobalValidations(app: INestApplication) {
 
 async function setupSwagger(app: INestApplication) {
     const config = new DocumentBuilder()
-        .setTitle('VamJoo api')
+        .setTitle('Transformation And Integration api')
         .setDescription('')
         .setVersion('1.0')
         .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
@@ -61,10 +60,6 @@ async function setupSwagger(app: INestApplication) {
             persistAuthorization: true,
         },
     })
-
-    app.use('/api-doc', (_, res: ServerResponse) =>
-        res.end(JSON.stringify(document)),
-    )
 }
 
 async function bootstrap() {

@@ -1,5 +1,8 @@
-import { BaseJob } from '../types/data-transformed.type'
-import { ApiTwoJobType, ApiTwoResponse } from '../types/ProviderTwoRes.type'
+import { BaseJob } from 'src/modules/utils/types/data-transformed.type'
+import {
+	ApiTwoJobType,
+	ApiTwoResponse,
+} from 'src/modules/utils/types/ProviderTwoRes.type'
 
 export default class ApiTwoMapper {
     static mapJob(job: ApiTwoJobType): BaseJob {

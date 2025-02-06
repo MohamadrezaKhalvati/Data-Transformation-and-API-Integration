@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { ScheduleModule } from '@nestjs/schedule'
 import { DatabaseModule } from '../database/database.module'
-
 import { UtilsService } from './utils.service'
+
 @Module({
     imports: [
         DatabaseModule,
