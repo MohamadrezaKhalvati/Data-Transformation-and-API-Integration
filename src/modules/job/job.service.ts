@@ -67,9 +67,6 @@ export class JobService extends BaseService<Job> {
             })
         }
 
-        // qb.leftJoinAndSelect('job.company', 'company')
-        //     .leftJoinAndSelect('job.jobSkills', 'job_skills')
-        //     .leftJoinAndSelect('jobSkills', 'skill')
         qb.leftJoinAndSelect('job.company', 'company')
             .leftJoinAndSelect('job.jobSkills', 'job_skills')
             .leftJoinAndSelect('job_skills.skill', 'skill')

@@ -3,9 +3,9 @@ import { NotFoundException } from '@nestjs/common'
 import { Repository, SelectQueryBuilder } from 'typeorm'
 import { PaginateData } from '../utils/paginate-data'
 import {
-    QueryBuilderParams,
-    QueryParams,
-    SingleQueryParams,
+	QueryBuilderParams,
+	QueryParams,
+	SingleQueryParams,
 } from '../validators/query-param.validator'
 
 export abstract class BaseService<T> {
@@ -122,7 +122,6 @@ export abstract class BaseService<T> {
     }
 
     async update(id: number, body: Partial<T>) {
-        // const data = await this.findOne(id);
         body['updatedAt'] = new Date()
         await this.repository.update(id, body)
         return await this.findOne(id)
